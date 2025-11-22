@@ -1,0 +1,32 @@
+---
+// src/components/features/About.astro
+
+import Heading from '@/components/ui/Heading.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { AboutLang } from '@/content/tags/types.ts';
+
+interface Props {
+	about: AboutLang;
+}
+
+const { about }: Props = Astro.props;
+---
+
+<Section id="about" class="scroll-m-8">
+	<Container>
+		<div class="mx-auto max-w-2xl space-y-4 text-center">
+			<Landing id="about-landing">
+				<Heading
+					level={2}
+					title={about.title}
+					description={about.description}
+					align="center"
+				/>
+			</Landing>
+		</div>
+	</Container>
+</Section>

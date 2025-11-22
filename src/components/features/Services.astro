@@ -1,0 +1,37 @@
+---
+// src/components/features/Services.astro
+
+import Heading from '@/components/ui/Heading.astro';
+import Card from '@/components/ui/Card.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { ServiceItem } from '@/content/data/types.ts';
+import type { ServicesLang } from '@/content/tags/types.ts';
+
+interface Props {
+	lang: ServicesLang;
+	services: ServiceItem[];
+}
+
+const { lang, services }: Props = Astro.props;
+---
+
+<Section id="services">
+	<Container>
+		<Landing id="services-landing">
+			<Heading level={2} title={lang.title} align="center" />
+			<div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+				{
+					services.map((item) => (
+						<Card title={item.title}>
+							<p class="text-sm opacity-80">{item.description}</p>
+						</Card>
+					))
+				}
+			</div>
+		</Landing>
+	</Container>
+</Section>

@@ -1,0 +1,176 @@
+---
+// src/components/Layout.astro
+
+import Navbar from '@/components/ui/Navbar.astro';
+import Footer from '@/components/ui/Footer.astro';
+import Background from '@/components/ui/Background.astro';
+
+import { type NavbarLang, type FooterLang } from '@/content/tags';
+
+interface Props {
+	lang: string;
+	title: string;
+	description: string;
+	url: string;
+	navbar: NavbarLang[];
+	footer: FooterLang;
+	ogImage: string;
+	jsonLd?: object;
+}
+
+const {
+	lang,
+	title,
+	description,
+	url,
+	navbar,
+	footer,
+	ogImage,
+	jsonLd,
+}: Props = Astro.props;
+---
+
+<!--  Evitar FOUC en la carga inicial (lang/theme) -->
+<script is:inline>
+	(() => {
+		const p = window.location.pathname;
+		if (p.startsWith('/en') || p.startsWith('/es')) return;
+
+		const langs = navigator.languages || [navigator.language];
+
+		const idxEN = langs.findIndex((l) => l.startsWith('en'));
+		const idxES = langs.findIndex((l) => l.startsWith('es'));
+
+		// Normalizar: -1 -> “no está”
+		const en = idxEN >= 0 ? idxEN : Infinity;
+		const es = idxES >= 0 ? idxES : Infinity;
+
+		if (en < es) location.replace('/en');
+		// si gana /es -> no redirige porque raíz ya es español
+	})();
+</script>
+<script is:inline>
+	(() => {
+		const root = document.documentElement;
+
+		const storedTheme = localStorage.getItem('theme');
+		const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+			.matches
+			? 'dark'
+			: 'light';
+
+		if (
+			storedTheme === 'default' ||
+			storedTheme === 'light' ||
+			storedTheme === 'dark'
+		) {
+			root.dataset.theme = storedTheme;
+		} else if (systemTheme === 'light' || systemTheme === 'dark') {
+			root.dataset.theme = systemTheme;
+		} else {
+			root.dataset.theme = 'default';
+		}
+	})();
+</script>
+
+<script>
+	// --- Utilidad para carga de Fuentes ---
+	const isReady = (callback: () => void): void => {
+		document.fonts.ready.then(callback);
+	};
+
+	// --- Lógica de Scroll y Salto de Animación ---
+	const isHashNavigation = window.location.href.includes('#');
+	const isHeroTarget = window.location.href.includes('#hero');
+
+	const skipAnimation = isHashNavigation && !isHeroTarget && scrollY !== 0;
+	if (!skipAnimation) {
+		window.requestAnimationFrame(() => {
+			// Esperar un tick del navegador
+			window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+		});
+	}
+
+	// --- Imports y Setups Rápidos ---
+	import {
+		setupMobileMenu,
+		setupLangSwitch,
+		setupThemeSwitch,
+		triggerLanding,
+	} from '@/scripts';
+
+	setupMobileMenu();
+	setupLangSwitch();
+	setupThemeSwitch();
+
+	// --- Setup de Animaciones y Navbar ---
+	const initAnimations = () => {
+		// Aplicar el delay solo si hay movimiento de scroll que esperar.
+		const delay = scrollY !== 0 && !skipAnimation ? 250 : 0;
+
+		setTimeout(() => {
+			// Ejecutar las animaciones scroll-triggered (landingAnimate)
+			triggerLanding(skipAnimation);
+
+			// Ejecutar la mini animación del navbar inmediatamente después del delay (o 0ms)
+			document.getElementById('navbar')?.classList.add('trigger');
+			document.getElementById('overlay')?.classList.add('trigger');
+		}, delay);
+	};
+
+	// Esperar a que las fuentes estén cargadas antes de iniciar todo
+	isReady(initAnimations);
+</script>
+
+<html lang={lang} data-theme="default">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={url} />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={url} />
+		<meta property="og:image" content={ogImage} />
+		<meta
+			property="og:locale"
+			content={lang === 'es' ? 'es_AR' : 'en_US'}
+		/>
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<!-- JSON-LD Person -->
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(jsonLd, null, 2)}
+		/>
+	</head>
+
+	<body class="min-h-screen w-screen">
+		<!-- Intro Overlay -->
+		<div
+			id="overlay"
+			class="fixed h-screen w-screen bg-white dark:bg-black"
+		>
+		</div>
+		<!-- Fixed Background -->
+		<Background />
+
+		<!-- Main Layout Background -->
+		<Navbar lang={lang} navbar={navbar} />
+		<main>
+			<slot />
+		</main>
+		<Footer footer={footer} />
+	</body>
+</html>

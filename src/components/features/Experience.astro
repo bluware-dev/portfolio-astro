@@ -1,0 +1,37 @@
+---
+// src/components/features/Experience.astro
+
+import Heading from '@/components/ui/Heading.astro';
+import Card from '@/components/ui/Card.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { ExperienceItem } from '@/content/data/types.ts';
+import type { ExperienceLang } from '@/content/tags/types.ts';
+
+interface Props {
+	lang: ExperienceLang;
+	experience: ExperienceItem[];
+}
+
+const { lang, experience }: Props = Astro.props;
+---
+
+<Section id="experience">
+	<Container>
+		<Landing id="experience-landing">
+			<Heading level={2} title={lang.title} align="center" />
+			<div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+				{
+					experience.map((item) => (
+						<Card title={item.title}>
+							<p class="text-sm opacity-80">{item.description}</p>
+						</Card>
+					))
+				}
+			</div>
+		</Landing>
+	</Container>
+</Section>

@@ -1,0 +1,42 @@
+---
+// src/components/features/Hero.astro
+
+import Heading from '@/components/ui/Heading.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { HeroLang } from '@/content/tags/types.ts';
+
+interface Props {
+	hero: HeroLang;
+}
+
+const { hero }: Props = Astro.props;
+---
+
+<Section id="hero">
+	<Container>
+		<div
+			class="flex min-h-[80vh] flex-col items-center justify-center space-y-6 text-center"
+		>
+			<Landing id="hero-landing">
+				<Heading
+					level={1}
+					title={hero.title}
+					subtitle={hero.subtitle}
+					description={hero.description}
+					align="center"
+				/>
+				<Button
+					href="#about"
+					text={hero.more}
+					target="_self"
+					class="transition[text-shadow,opacity,translate] duration-200 ease-out text-shadow-black hover:-translate-y-px hover:opacity-100 hover:text-shadow-[1px_1px_3px] dark:text-shadow-white"
+				/>
+			</Landing>
+		</div>
+	</Container>
+</Section>

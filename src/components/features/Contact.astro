@@ -1,0 +1,45 @@
+---
+// src/components/features/Contact.astro
+
+import Card from '@/components/ui/Card.astro';
+import Heading from '@/components/ui/Heading.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { SocialItem } from '@/content/data/types.ts';
+import type { ContactLang } from '@/content/tags/types.ts';
+
+interface Props {
+	lang: ContactLang;
+	socials: SocialItem[];
+}
+
+const { lang, socials }: Props = Astro.props;
+---
+
+<Section id="contact">
+	<Container>
+		<Landing id="contact-landing">
+			<Heading level={2} title={lang.title} align="center" />
+			<div
+				class="mt-8 grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-2"
+			>
+				{
+					socials.map((s) => (
+						<a
+							href={s.url}
+							target="_blank"
+							class="text-sm font-medium underline transition-opacity hover:opacity-80"
+						>
+							<Card title={s.platform} class="py-6">
+								{s.label}
+							</Card>
+						</a>
+					))
+				}
+			</div>
+		</Landing>
+	</Container>
+</Section>

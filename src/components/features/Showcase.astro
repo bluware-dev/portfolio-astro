@@ -1,0 +1,119 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import Card from '@/components/ui/Card.astro';
+
+import Landing from '@/components/ui/Landing.astro';
+
+import type { ShowcaseItem } from '@/content/data/types.ts';
+import type { ShowcaseLang } from '@/content/tags/types.ts';
+
+interface Props {
+	lang: ShowcaseLang;
+	showcase: ShowcaseItem[];
+}
+
+const { lang, showcase }: Props = Astro.props;
+
+import fs from 'node:fs';
+import path from 'node:path';
+import Heading from '../ui/Heading.astro';
+
+const isCDN = (str: string): boolean =>
+	/^(https?:\/\/)?(www\.)?[\w.-]+\.[a-z]{2,6}(\/[\w./-]*)?$/.test(str);
+
+const showcaseSafe = showcase.map((item): ShowcaseItem => {
+	const filename = item.image ?? '';
+	const localPath = path.join(process.cwd(), 'public', 'img', filename);
+
+	const resolved = fs.existsSync(localPath)
+		? `/img/${filename}`
+		: isCDN(filename)
+			? filename
+			: undefined;
+	return { ...item, image: resolved };
+});
+
+const getMediaType = (
+	filename: string | null | undefined
+): 'image' | 'video' | null => {
+	if (!filename) return null;
+	const ext = filename.split('.').pop()?.toLowerCase();
+	if (!ext) return null;
+	if (['webp', 'gif', 'png', 'jpg', 'jpeg', 'svg'].includes(ext))
+		return 'image';
+	if (['mp4', 'webm'].includes(ext)) return 'video';
+	return null;
+};
+---
+
+<Section id="showcase">
+	<Container>
+		<Landing id="showcase-landing">
+			<Heading level={2} title={lang.title} align="center" />
+
+			<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-1 lg:flex-col">
+				{
+					showcaseSafe.map((item) => (
+						<Card
+							title={item.title}
+							class="flex flex-col items-center gap-3"
+						>
+							<div>
+								<p class="mb-2 text-center">{item.about}</p>
+								{item.image ? (
+									getMediaType(item.image) === 'image' ? (
+										<img
+											src={item.image}
+											alt={item.title}
+											loading="lazy"
+											class="mx-auto w-auto object-cover p-4 sm:h-100"
+										/>
+									) : getMediaType(item.image) === 'video' ? (
+										<video
+											src={item.image}
+											class="mx-auto pointer-events-none w-auto object-cover p-4 sm:h-100"
+											loop
+											muted
+											autoplay
+										/>
+									) : (
+										<div class="mx-auto flex h-30 w-50 items-center justify-center rounded-md border border-dashed p-4 text-center text-sm opacity-70 md:h-50 md:w-100 lg:h-8 lg:w-120">
+											{lang.noImage}
+										</div>
+									)
+								) : (
+									<div class="mx-auto flex h-30 w-50 items-center justify-center rounded-md border border-dashed p-4 text-center text-sm opacity-70 md:h-50 md:w-100 lg:h-8 lg:w-120">
+										{lang.noImage}
+									</div>
+								)}
+								<p class="text-center text-sm font-medium">
+									{item.projectUrl ? (
+										<a
+											href={item.projectUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="mx-2 mt-2 inline-block underline"
+										>
+											{lang.viewProject}
+										</a>
+									) : null}
+									{item.repositoryUrl ? (
+										<a
+											href={item.repositoryUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="mx-2 mt-2 inline-block underline"
+										>
+											{lang.viewRepository}
+										</a>
+									) : null}
+								</p>
+							</div>
+						</Card>
+					))
+				}
+			</div>
+		</Landing>
+	</Container>
+</Section>
