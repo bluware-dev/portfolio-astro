@@ -1,0 +1,115 @@
+---
+// App.astro
+
+import '@/styles/globals.css';
+
+import {
+	About,
+	Contact,
+	Experience,
+	Hero,
+	Layout,
+	Services,
+	Showcase,
+} from '@/components/features';
+
+import {
+	aboutLangMap,
+	contactLangMap,
+	experienceLangMap,
+	FooterLangMap,
+	heroLangMap,
+	navbarLangMap,
+	servicesLangMap,
+	showcaseLangMap,
+} from '@/content/tags';
+
+import {
+	socials,
+	profileDataLangMap,
+	experienceDataLangMap,
+	servicesDataLangMap,
+	showcaseDataLangMap,
+} from '@/content/data';
+
+interface Props {
+	lang: string;
+	title: string;
+	description: string;
+	url: string;
+	ogImage: string;
+	jsonLd?: object;
+}
+
+const {
+	lang,
+	title,
+	description,
+	url,
+	ogImage,
+	jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: 'Elian Jofre',
+		alternateName: [
+			'Elian Jofre',
+			'elian jofre',
+			'Blu',
+			'blu',
+			'Bluware',
+			'bluware',
+			'BluwareDev',
+			'bluware-dev',
+			'bluware.dev',
+			'Blu4Web',
+			'blu4web',
+			'Elian Blu',
+			'elian blu',
+			'Elian Bluware',
+			'elian bluware',
+		],
+		jobTitle: profileDataLangMap[lang].role,
+		url: profileDataLangMap[lang].website,
+		worksFor: {
+			'@type': 'Organization',
+			name: 'Blu4Web',
+			url: 'https://blu4web.vercel.app',
+		},
+		sameAs: [
+			'https://bluware.vercel.app',
+			'https://github.com/bluware-dev',
+			'https://linkedin.com/in/bluware',
+			'https://instagram.com/bluware.dev',
+			'https://instagram.com/blu4web',
+			'https://blu4web.vercel.app',
+		],
+	},
+} = Astro.props;
+---
+
+<Layout
+	lang={lang}
+	title={title}
+	description={description}
+	url={url}
+	navbar={navbarLangMap[lang]}
+	footer={FooterLangMap[lang]}
+	ogImage={ogImage}
+	jsonLd={jsonLd}
+>
+	<Hero hero={heroLangMap[lang]} />
+	<About about={aboutLangMap[lang]} />
+	<Services
+		lang={servicesLangMap[lang]}
+		services={servicesDataLangMap[lang]}
+	/>
+	<Experience
+		lang={experienceLangMap[lang]}
+		experience={experienceDataLangMap[lang]}
+	/>
+	<Showcase
+		lang={showcaseLangMap[lang]}
+		showcase={showcaseDataLangMap[lang]}
+	/>
+	<Contact lang={contactLangMap[lang]} socials={socials} />
+</Layout>
