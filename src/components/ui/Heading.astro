@@ -1,0 +1,49 @@
+---
+// src/components/ui/Heading.astro
+
+interface Props {
+	level?: 1 | 2 | 3 | 4 | 5;
+	title?: string;
+	subtitle?: string;
+	description?: string;
+	align?: 'left' | 'center' | 'right';
+	class?: string;
+}
+
+const {
+	level = 2,
+	title = '',
+	subtitle = '',
+	description = '',
+	align = 'left',
+	class: className = '',
+}: Props = Astro.props;
+
+const Tag = `h${level}` as keyof HTMLElementTagNameMap;
+---
+
+<div class={`text-${align} space-y-2 ${className}`}>
+	{
+		title && (
+			<Tag
+				class="leading-tight font-semibold tracking-tight"
+				set:html={title}
+			/>
+		)
+	}
+
+	{
+		subtitle && (
+			<p class="text-base font-medium opacity-80" set:html={subtitle} />
+		)
+	}
+
+	{
+		description && (
+			<p
+				class="mx-auto max-w-prose text-sm opacity-70"
+				set:html={description}
+			/>
+		)
+	}
+</div>

@@ -1,0 +1,13 @@
+---
+// src/components/ui/Landing.astro
+
+interface Props {
+	id?: string;
+}
+
+const { id = 'animate-landing' }: Props = Astro.props;
+---
+
+<div data-animate="landing" id={id}>
+	<slot />
+</div>

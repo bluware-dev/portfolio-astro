@@ -1,0 +1,25 @@
+---
+// src/components/ui/Button.astro
+
+interface Props {
+	href?: string;
+	target?: string;
+	text?: string;
+	class?: string;
+}
+
+const {
+	href = '',
+	target = '_self',
+	text = '',
+	class: className = '',
+}: Props = Astro.props;
+---
+
+<a
+	href={href}
+	target={target}
+	class={`inline-block rounded-md px-4 py-2 font-medium transition hover:opacity-80 ${className}`}
+>
+	{text}
+</a>

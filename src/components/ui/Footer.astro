@@ -1,0 +1,22 @@
+---
+// src/components/ui/Footer.astro
+
+import Heading from '@/components/ui/Heading.astro';
+
+import type { FooterLang } from '@/content/tags/types.ts';
+
+interface Props {
+	footer: FooterLang;
+}
+
+const { footer }: Props = Astro.props;
+---
+
+<footer class="mt-32 w-full py-6 text-center text-sm opacity-70">
+	<Heading
+		level={5}
+		title={footer.title}
+		description={footer.description}
+		align="center"
+	/>
+</footer>

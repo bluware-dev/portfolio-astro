@@ -1,0 +1,78 @@
+---
+// src/components/ui/Navbar.astro
+
+import type { NavbarLang } from '@/content/tags/types.ts';
+
+import Hamburguer from '@/components/ui/Hamburguer.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+	lang: string;
+	navbar: NavbarLang[];
+}
+
+const { lang, navbar }: Props = Astro.props;
+
+const switchLang = lang === 'es' ? 'en' : 'es';
+---
+
+<header class="fixed z-50 w-full">
+	<nav
+		id="navbar"
+		class="relative z-30 mx-auto flex items-center justify-between rounded-b-lg border px-4 py-6 backdrop-blur-xs sm:rounded-lg sm:py-3 md:w-5/6"
+	>
+		<!-- Centro -->
+		<div
+			class="justify-start not-sm:hidden sm:grid sm:flex-1 sm:grid-cols-3 sm:gap-1 md:mx-auto md:flex md:gap-4 lg:justify-center lg:gap-6"
+		>
+			{
+				navbar.map((link) => (
+					<a
+						href={link.href}
+						class="text-sm font-medium opacity-85 transition duration-200 ease-out text-shadow-black hover:-translate-y-px hover:opacity-100 hover:text-shadow-[1px_1px_3px] dark:text-shadow-white"
+					>
+						{link.name}
+					</a>
+				))
+			}
+		</div>
+
+		<!-- Derecha fija -->
+		<div
+			class="absolute top-1/2 right-4 flex -translate-y-1/2 items-center gap-3"
+		>
+			<button
+				id="switch-lang"
+				class="text-md pr-1 font-black transition-opacity hover:underline hover:opacity-80"
+			>
+				{switchLang.toUpperCase()}
+			</button>
+
+			<button
+				id="theme-switch"
+				class="cursor-pointer pr-1 font-medium transition-opacity hover:opacity-80"
+			>
+				<Icon name="theme" size={20} />
+			</button>
+
+			<Hamburguer />
+		</div>
+	</nav>
+
+	<!-- Menú móvil -->
+	<ul
+		id="mobile-menu"
+		class="fixed top-0 right-0 bottom-0 left-0 z-10 flex flex-col gap-6 bg-white/50 p-6 pt-20 text-center font-black sm:hidden dark:bg-black/50"
+	>
+		{
+			navbar.map((link) => (
+				<a
+					href={link.href}
+					class="text-lg font-medium opacity-85 transition duration-200 hover:opacity-100"
+				>
+					{link.name}
+				</a>
+			))
+		}
+	</ul>
+</header>
