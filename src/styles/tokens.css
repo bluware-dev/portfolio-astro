@@ -1,0 +1,17 @@
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Light Vars (Default) */
+@theme light {
+	--color-bg-light: white;
+	--color-fg-light: black;
+}
+
+/* Dark Vars */
+@theme dark {
+	--color-bg-dark: black;
+	--color-fg-dark: white;
+}
+
+/* Utilidades */
+@layer utilities {
+}

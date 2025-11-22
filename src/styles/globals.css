@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@import './fonts.css';
+@import './tokens.css';
+@import './triggers.css';
+
+/* Globals */
+html {
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+}
+
+/* SoC Sections */
+
+/* Scrollbar */
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+	--bg-color: var(--color-bg-light);
+	--fg-color: var(--color-fg-light);
+}
+[data-theme='dark'] ::-webkit-scrollbar,
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+	--bg-color: var(--color-bg-dark);
+	--fg-color: var(--color-fg-dark);
+}
+::-webkit-scrollbar {
+	@apply w-1 sm:w-2 md:w-1.5 lg:w-2.5;
+	background-color: transparent;
+	height: auto;
+}
+::-webkit-scrollbar-thumb {
+	background-color: var(--fg-color);
+	border-radius: 6px 0px 0px 6px;
+}
+
+/* Background */
+[data-theme='dark'] body {
+	--bg-color: var(--color-bg-dark);
+	--fg-color: var(--color-fg-dark);
+}
+body {
+	--bg-color: var(--color-bg-light);
+	--fg-color: var(--color-fg-light);
+
+	background-color: var(--bg-color);
+	color: var(--fg-color);
+}
+
+/* Navbar Theme SVG */
+[data-theme='dark'] #theme-switch {
+	filter: invert(100%);
+}
+#theme-switch {
+	filter: invert(0%);
+}

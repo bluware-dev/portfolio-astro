@@ -1,0 +1,65 @@
+/* Triggers Globales */
+/* Nota: usar opacity-1 en vez de opacity-0 para evitar romper el algoritmo LCP */
+@layer utilities {
+	[data-animate='landing'] {
+		@apply translate-y-75 opacity-1 blur-[2px] transition-[opacity,blur,translate] delay-250 duration-500 ease-in-out will-change-transform sm:blur-xs;
+	}
+	[data-animate='landing'].trigger {
+		@apply translate-y-0 scroll-m-6 opacity-100 blur-none;
+	}
+
+	#overlay {
+		@apply pointer-events-none bg-white opacity-100 transition-opacity duration-500 ease-in-out dark:bg-black;
+	}
+	#overlay.trigger {
+		@apply opacity-1;
+	}
+
+	#navbar {
+		@apply pointer-events-none -translate-y-full opacity-1 transition-[translate] delay-250 duration-500 ease-in-out will-change-transform;
+	}
+	#navbar.trigger {
+		@apply pointer-events-auto translate-y-0 opacity-100;
+	}
+
+	#mobile-menu {
+		@apply pointer-events-none -translate-y-full opacity-1 backdrop-blur-none transition-[blur,opacity,translate] duration-500 ease-out will-change-transform;
+	}
+	#mobile-menu.trigger {
+		@apply pointer-events-auto translate-y-0 opacity-100 backdrop-blur-xs;
+	}
+}
+
+@theme {
+	/* Duración de 750ms y curva ease-in-out. Se elimina 'infinite' */
+	--animate-bounce-fade-jump: bounce-fade-jump 800ms ease-in-out forwards;
+
+	@keyframes bounce-fade-jump {
+		/* 0%: Estado inicial (Reposo y Visible) */
+		0% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+		/* 15%: Preparación/Compresión (Ajustado a 15% para dar más tiempo al salto) */
+		15% {
+			transform: translateY(10%);
+			opacity: 0.8;
+		}
+		90% {
+			transform: translateY(-90%);
+			opacity: 0;
+		}
+		/* 100%: Sale de la vista (Vuela y se vuelve completamente invisible) */
+		100% {
+			transform: translateY(-100%); /* Posición final: fuera de vista */
+			opacity: 0;
+		}
+	}
+}
+
+/* Utilidades Base Keyframes */
+@layer utilities {
+	.bounce-redirect {
+		@apply animate-bounce-fade-jump will-change-transform;
+	}
+}
