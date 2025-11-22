@@ -77,8 +77,8 @@ src/
 ## 🛠️ Installation
 
 ```bash
-git clone <REPO_URL>
-cd <PROJECT>
+git clone https://github.com/bluware-dev/portfolio-astro.git
+cd portfolio-astro
 pnpm install
 pnpm dev
 ```
