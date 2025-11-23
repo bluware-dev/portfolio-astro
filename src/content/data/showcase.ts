@@ -28,7 +28,7 @@ export const showcaseDataLangMap: LangMap<ShowcaseItem[]> = {
 		{
 			title: 'CLI - Minimal Notes',
 			about: 'Typer CLI inteligente para gestión de notas con SQLite3 y procesamiento con la API de Gemini AI',
-			image: 'https://raw.githubusercontent.com/uCoders-Devs/minimal-notes/refs/heads/main/docs/MNCTL_CLI.png',
+			image: 'minimal-notes-cli.webp',
 			repositoryUrl: 'https://github.com/uCoders-Devs/minimal-notes',
 		},
 	],
@@ -57,7 +57,7 @@ export const showcaseDataLangMap: LangMap<ShowcaseItem[]> = {
 		{
 			title: 'CLI - Minimal Notes',
 			about: 'Smart Typer CLI for note management with SQLite3 and processing with the Gemini AI API',
-			image: 'https://raw.githubusercontent.com/uCoders-Devs/minimal-notes/refs/heads/main/docs/MNCTL_CLI.png',
+			image: 'minimal-notes-cli.webp',
 			repositoryUrl: 'https://github.com/uCoders-Devs/minimal-notes',
 		},
 	],

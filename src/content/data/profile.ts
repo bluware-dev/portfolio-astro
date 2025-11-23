@@ -19,7 +19,7 @@ export const profileDataLangMap: LangMap<Profile> = {
 		location: 'Buenos Aires, Argentina',
 		description:
 			'Specialized in backend, automation, and efficient web service deployment.',
-		about: 'Passionate about optimizing processes and delivering high-quality code. I combine modularity, efficiency, and engineering best practices to build scalable and maintainable solutions. Skilled in Python, JavaScript, and Linux environments-',
+		about: 'Passionate about optimizing processes and delivering high-quality code. I combine modularity, efficiency, and engineering best practices to build scalable and maintainable solutions. Skilled in Python, JavaScript, and Linux environments.',
 		website: 'https://bluware-astro.vercel.app/en',
 	},
 };
