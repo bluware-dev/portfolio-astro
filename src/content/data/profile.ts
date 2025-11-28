@@ -37,8 +37,8 @@ export const socials: SocialItem[] = [
 	},
 	{
 		platform: 'Instagram',
-		label: '@blu4web',
-		url: 'https://instagram.com/blu4web',
+		label: '@bluware.dev',
+		url: 'https://instagram.com/bluware.dev',
 	},
 	{
 		platform: 'Email',
