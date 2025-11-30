@@ -127,10 +127,28 @@ const {
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
+
 		<title>{title}</title>
 		<meta name="description" content={description} />
+
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="canonical" href={url} />
+
+		<link
+			rel="alternate"
+			hreflang="es"
+			href="https://bluware-astro.vercel.app/es"
+		/>
+		<link
+			rel="alternate"
+			hreflang="en"
+			href="https://bluware-astro.vercel.app/en"
+		/>
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href="https://bluware-astro.vercel.app/"
+		/>
 
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />

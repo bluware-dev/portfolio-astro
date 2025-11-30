@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /img/portfolio-astro.webm
 
 Sitemap: https://bluware-astro.vercel.app/sitemap.xml
